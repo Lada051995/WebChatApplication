@@ -1,0 +1,52 @@
+#left {
+  float: left; // Левые блоки размещаем слева
+  width: 20%; // Установка ширины 
+}
+#right {
+  float: right; // Правые блоки размещаем справа
+  width: 20%; 
+}
+#center {
+  margin-left: 25%; // Отступ слева
+  margin-right: 25%; // Отступ справа
+}
+.clear {
+  clear: both; // Отменяем позиционирование (влияние float)
+}
+.menu {
+align: "center";
+color:white;
+}
+
+.chat {
+color:white;
+}
+
+.stroka {
+color:white;
+}
+
+.n_s{
+width:50%;
+resize: none;
+}
+
+.ren_s{
+width:40%;
+}
+
+.areaForText{
+width:60%;
+}
+
+.sending{
+width:10%;
+}
+
+.writing{
+width:54%;
+resize: none;
+}
+
+
+

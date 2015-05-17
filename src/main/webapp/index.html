@@ -1,0 +1,91 @@
+<html>
+<head>
+     <title>My Chat</title>
+     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+     <link href="css\bootstrap_2.3.2\bootstrap.css" rel="stylesheet" type="text/css" />
+     <link href="css\style.css" rel="stylesheet" type="text/css" />
+     <script src = "js\scripts.js"></script>
+     <style>
+       body { background: url(two.jpg); color: white}
+     </style>
+</head>
+
+
+
+<body text = "red" onload="run();" >
+     <br>
+     <div align = "center">
+         <h1 class="chat"><b><big>OUR CHATTING ROOM</b></big></h1>
+		 <input type = "submit" value = "ON" class = "btn btn-success" id = "OnOff">
+     </div>
+     </div>
+
+     <div id="header">
+     </div>
+   
+   
+     <div id="content">
+     <div id="left">
+         <div align = "center">
+	     <br>
+	     <h2 class ="menu"><b><big>My menu</b></big></h2>
+	     <br>
+	     <b><big>Edit your own text:</big></b>
+	     <br>
+		 <br>
+	     <input type = "text" name = "edit_box" id = "textformessage">
+	     <br>
+	     <br>
+         <input type = "submit" value = "Send your edit message" class = "btn btn-warning" id = "send_edit_message">
+         <br>
+         <br>
+         <input type = "submit" value = "Delete messages" class = "btn btn-warning" id = "delete">
+	 </div>
+     </div>
+     <div id="right">
+         <div align = "center">
+         <br>
+	     <br>
+	     <textarea name = "message" readonly="readonly" class = "n_s" id = "name_surname"></textarea>
+	     <br>
+	     <img src = "my.jpg" alt = "I" width = "150" height = "150">
+	     <br>
+	     <br>
+	     <b>Name:</b> <input type = "text" name = "firstname" id = "name">
+	     <br>
+	     <b>Surname:</b> <input type = "text" name = "secondname" value = "" id = "surname">
+	     <br>
+	     <br>
+	     <input type = "submit" value = "Rename" class = "btn btn-warning ren_s" id = "rename">
+	     </div>
+	 </div>
+	
+	
+     <div id="center">
+         <br>
+         <br>
+	     <select name="Messages" multiple="multiple" size = 15 class = "areaForText" id = "select">
+         </select>
+
+	     <br>
+	     <textarea name="message" class="writing" id="textarea" placeholder="Write text "></textarea>
+	     <input type = "submit" value = "Send" class = "btn btn-warning sending" id = "send">
+	     <br>
+	     <br>
+     </div>
+     </div>
+   
+   
+     <div class="clear">
+     </div>
+     <div id="footer">
+     <div id = "center">
+         <br>
+         <br>
+         <br>
+         <marquee behavior="alternate" class = "stroka" direction="right"><h4><big><i><b>Chatting and chatting, and chatting...</b></i></big></h4></marquee>
+     </div>
+     </div>
+
+</body>
+</html>
