@@ -31,7 +31,6 @@ import static org.util.MessageUtil.*;
 
 @WebServlet(value = "/chat", loadOnStartup = 1, asyncSupported=true)
 public class MessageServlet extends HttpServlet {     
-	private static final long serialVersionUID = 1L;
 	private static int ID;
 	private Lock lock = new ReentrantLock();
 	private int isModifiedStorage = 0;
@@ -44,27 +43,13 @@ public class MessageServlet extends HttpServlet {
 		logger.info("intit have done.");
 		try {
 			ID = XMLHistoryUtil.getStorageSize();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
+		} catch (SAXException | IOException | ParserConfigurationException e) {
+			logger.error(e);
 		}
 		try {
 			loadHistory();
-		} catch (SAXException e) {
+		} catch (SAXException | IOException | ParserConfigurationException | TransformerException e) {
 			logger.error(e);
-			System.err.print(e);
-		} catch (IOException e) {
-			logger.error(e);
-			System.err.print(e);
-		} catch (ParserConfigurationException e) {
-			logger.error(e);
-			System.err.print(e);
-		} catch (TransformerException e) {
-			logger.error(e);
-			System.err.print(e);
 		}
 	}
 	
@@ -87,18 +72,10 @@ public class MessageServlet extends HttpServlet {
 			logger.info("doPost has done.");
 			try {
 				XMLHistoryUtil.addData(message);
-			} catch (ParserConfigurationException e) {
+			} catch (ParserConfigurationException | SAXException | TransformerException e) {
 				logger.error(e);
-				e.printStackTrace();
-			} catch (SAXException e) {
-				logger.error(e);
-				e.printStackTrace();
-			} catch (TransformerException e) {
-				logger.error(e);
-				e.printStackTrace();
 			}
 		} catch (ParseException e) {
-			System.err.println("Invalid user message: " + e.getMessage());
 			logger.error(e);
 		}
 	}
@@ -144,21 +121,10 @@ public class MessageServlet extends HttpServlet {
 			try {
 				XMLHistoryUtil.updateData(message);
 				isModifiedStorage++;
-			} catch (ParserConfigurationException e) {
-				e.printStackTrace();
-				logger.error(e);
-			} catch (SAXException e) {
-				e.printStackTrace();
-				logger.error(e);
-			} catch (TransformerException e) {
-				e.printStackTrace();
-				logger.error(e);
-			} catch (XPathExpressionException e) {
-				e.printStackTrace();
+			} catch (ParserConfigurationException | SAXException | TransformerException |  XPathExpressionException e) {
 				logger.error(e);
 			}
 		} catch (ParseException e) {
-			e.printStackTrace();
 			logger.error(e);
 		}
 	}
@@ -172,20 +138,7 @@ public class MessageServlet extends HttpServlet {
 				XMLHistoryUtil.deleteDate(index);
 				isModifiedStorage++;
 				logger.info("delete "+index);
-			} catch (ParserConfigurationException e) {
-				e.printStackTrace();
-				logger.error(e);
-			} catch (SAXException e) {
-				e.printStackTrace();
-				logger.error(e);
-			} catch (IOException e) {
-				e.printStackTrace();
-				logger.error(e);
-			} catch (TransformerException e) {
-				e.printStackTrace();
-				logger.error(e);
-			} catch (XPathExpressionException e) {
-				e.printStackTrace();
+			} catch (ParserConfigurationException | SAXException | IOException | TransformerException | XPathExpressionException e) {
 				logger.error(e);
 			}
 		}
@@ -212,17 +165,7 @@ public class MessageServlet extends HttpServlet {
 		for (AboutMessage task : stubTasks) {
 			try {
 				XMLHistoryUtil.addData(task);
-			} catch (ParserConfigurationException e) {
-				System.err.print(e);
-				logger.error(e);
-			} catch (SAXException e) {
-				System.err.print(e);
-				logger.error(e);
-			} catch (IOException e) {
-				System.err.print(e);
-				logger.error(e);
-			} catch (TransformerException e) {
-				System.err.print(e);
+			} catch (ParserConfigurationException | SAXException | IOException | TransformerException e) {
 				logger.error(e);
 			}
 		}
@@ -257,9 +200,9 @@ public class MessageServlet extends HttpServlet {
 
 			}
 		});
-		ScheduledThreadPoolExecutor executer = new ScheduledThreadPoolExecutor(10);
+
 		if(getIndex(request.getParameter(TOKEN)) != isModifiedStorage || getIndex(request.getParameter(TOKEN)) == isModifiedStorage) {
-			executer.execute(new AsyncService(ac, isModifiedStorage));
+			new AsyncService(ac, isModifiedStorage).run();
 		} else {
 			storage.add(ac);
 		}
