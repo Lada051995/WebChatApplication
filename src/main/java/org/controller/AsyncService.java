@@ -51,7 +51,7 @@ public class AsyncService implements Runnable {
     }
     private String formResponse(int index) throws SAXException, IOException, ParserConfigurationException {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put(MESSAGES, XMLHistoryUtil.getSubTasksByIndex(index));
+        jsonObject.put(MESSAGES, MessageServlet.messageDao.selectAll());
         jsonObject.put(TOKEN, getToken(isModifiedStorage));
         return jsonObject.toJSONString();
     }

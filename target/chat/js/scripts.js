@@ -86,8 +86,8 @@ function EventDelete(evnObj){
 	var subindex2 = select.text.indexOf('*');
 	if (n_s.value == select.text.substring(0, subindex)&& select.text.substring(subindex+1, subindex2)!= "Deleted message"){
 	     
-	     var message = messageOption(n_s.value, select.text, index);
-	     deleteMessages(message.id, function(){});
+	     var message = messageOption(n_s.value, "Deleted message", index);
+		editMessages(message, function(){});
 	     edit_text.value = "";
 	}
 }

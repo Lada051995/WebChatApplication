@@ -2,6 +2,7 @@ package org.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -21,6 +22,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.log4j.Logger;
+import org.dao.MessageDao;
+import org.dao.MessageDaoImpl;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.model.AboutMessage;
@@ -36,21 +39,14 @@ public class MessageServlet extends HttpServlet {
 	private int isModifiedStorage = 0;
 	private static Logger logger = Logger.getLogger(MessageServlet.class.getName());
 	private final static Queue<AsyncContext> storage = new ConcurrentLinkedQueue<AsyncContext>();
+	public static MessageDao messageDao = new MessageDaoImpl();
 
 	@Override
 	public void init() throws ServletException {
 		super.init();
 		logger.info("intit have done.");
-		try {
-			ID = XMLHistoryUtil.getStorageSize();
-		} catch (SAXException | IOException | ParserConfigurationException e) {
-			logger.error(e);
-		}
-		try {
-			loadHistory();
-		} catch (SAXException | IOException | ParserConfigurationException | TransformerException e) {
-			logger.error(e);
-		}
+		ID = messageDao.selectAll().size();
+		//loadHistory();
 	}
 	
 	@Override
@@ -71,8 +67,9 @@ public class MessageServlet extends HttpServlet {
 			System.out.println(message.toJSONString());
 			logger.info("doPost has done.");
 			try {
-				XMLHistoryUtil.addData(message);
-			} catch (ParserConfigurationException | SAXException | TransformerException e) {
+				//XMLHistoryUtil.addData(message);
+               messageDao.add(message);
+			} catch (SQLException e) {
 				logger.error(e);
 			}
 		} catch (ParseException e) {
@@ -118,12 +115,9 @@ public class MessageServlet extends HttpServlet {
 			JSONObject json = stringToJson(data);
 			AboutMessage message = jsonToMessages(json);
 			logger.info(message.toJSONString());
-			try {
-				XMLHistoryUtil.updateData(message);
-				isModifiedStorage++;
-			} catch (ParserConfigurationException | SAXException | TransformerException |  XPathExpressionException e) {
-				logger.error(e);
-			}
+			//XMLHistoryUtil.updateData(message);
+			messageDao.update(message);
+			isModifiedStorage++;
 		} catch (ParseException e) {
 			logger.error(e);
 		}
@@ -134,13 +128,10 @@ public class MessageServlet extends HttpServlet {
 		logger.info("Delete");
 		if (token != null && !"".equals(token)) {
 			int index = getIndex(token);
-			try {
-				XMLHistoryUtil.deleteDate(index);
-				isModifiedStorage++;
-				logger.info("delete "+index);
-			} catch (ParserConfigurationException | SAXException | IOException | TransformerException | XPathExpressionException e) {
-				logger.error(e);
-			}
+			//XMLHistoryUtil.deleteDate(index);
+			//messageDao.update(message);
+			isModifiedStorage++;
+			logger.info("delete "+index);
 		}
 
 	}
